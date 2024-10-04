@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function App() {
   const [selectedDays, setSelectedDays] = useState([]);
@@ -21,6 +21,16 @@ export default function App() {
   const [breakTime, setBreakTime] = useState(0);
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
+
+  // Устанавливаем начальные значения для startDate и startTime
+  useEffect(() => {
+    const today = new Date();
+    // Устанавливаем текущую дату в формате 'YYYY-MM-DD'
+    const currentDate = today.toISOString().split("T")[0];
+    setStartDate(currentDate);
+    // Устанавливаем время на 7:00
+    setStartTime("07:00");
+  }, []);
 
   const handleHoursIncrement = () => {
     setTotalHours(totalHours + 1);
@@ -190,6 +200,7 @@ export default function App() {
             <div className="flex items-center space-x-2">
               <input
                 type="date"
+                value={startDate}
                 className="border p-3 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
                 onChange={(e) => setStartDate(e.target.value)}
               />
@@ -265,6 +276,7 @@ export default function App() {
             <div className="flex items-center space-x-2">
               <input
                 type="time"
+                value={startTime}
                 className="border p-3 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
                 onChange={(e) => setStartTime(e.target.value)}
               />
@@ -278,14 +290,13 @@ export default function App() {
             </div>
           </div>
 
-          <div className="flex justify-end">
-            <button
-              type="submit"
-              className="bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition-colors duration-200 ease-in-out"
-            >
-              Добавить расписание
-            </button>
-          </div>
+          {/* Submit Button */}
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-white p-4 rounded-lg hover:bg-blue-400 transition-colors duration-200 ease-in-out"
+          >
+            Добавить расписание
+          </button>
         </form>
       </div>
     </div>
